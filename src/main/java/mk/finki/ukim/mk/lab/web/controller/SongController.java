@@ -38,7 +38,7 @@ public class SongController {
     @GetMapping("/add")
     public String getAddSongPage(Model model) {
         model.addAttribute("albums", albumService.findAll());
-        model.addAttribute("artists", artistService.listArtists());
+        model.addAttribute("song", null);
         return "addSong";
     }
 
@@ -47,35 +47,31 @@ public class SongController {
                            @RequestParam String trackId,
                            @RequestParam String genre,
                            @RequestParam int releaseYear,
-                           @RequestParam Long albumId,
-                           @RequestParam(required = false) List<Long> performerIds) {
-        songService.saveSong(title, trackId, genre, releaseYear, albumId, performerIds);
+                           @RequestParam Long albumId) {
+        songService.createSong(title, trackId, genre, releaseYear, albumId);
         return "redirect:/songs";
     }
 
-    @GetMapping("/edit/{songId}")
-    public String editSong(@PathVariable Long songId, Model model) {
-        Song song = songService.findById(songId);
+    @GetMapping("/edit-form/{id}")
+    public String getEditSongForm(@PathVariable Long id, Model model) {
+        Song song = songService.findById(id);
         if (song == null) {
             return "redirect:/songs?error=SongNotFound";
         }
 
         model.addAttribute("song", song);
         model.addAttribute("albums", albumService.findAll());
-        model.addAttribute("artists", artistService.listArtists());
-
-        return "editSong";
+        return "addSong";
     }
 
-    @PostMapping("/edit/{songId}")
-    public String saveEditedSong(@PathVariable Long songId,
+    @PostMapping("/edit-form/{id}")
+    public String saveEditedSong(@PathVariable Long id,
                                  @RequestParam String title,
                                  @RequestParam String trackId,
                                  @RequestParam String genre,
                                  @RequestParam int releaseYear,
-                                 @RequestParam Long albumId,
-                                 @RequestParam(required = false) List<Long> performerIds) {
-        songService.editSong(songId, title, trackId, genre, releaseYear, albumId, performerIds);
+                                 @RequestParam Long albumId) {
+        songService.editSong(id, title, trackId, genre, releaseYear, albumId);
         return "redirect:/songs";
     }
 

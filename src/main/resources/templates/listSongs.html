@@ -38,7 +38,7 @@
         </ul>
       </td>
       <td>
-        <a th:href="@{'/songs/edit/' + ${song.id}}">Edit</a>
+        <a th:href="@{'/songs/edit-form/' + ${song.id}}">Edit</a>
         <form th:action="@{'/songs/delete/' + ${song.id}}" method="post" style="display:inline;">
           <button type="submit">Delete</button>
         </form>
