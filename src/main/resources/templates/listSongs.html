@@ -42,6 +42,7 @@
         <form th:action="@{'/songs/delete/' + ${song.id}}" method="post" style="display:inline;">
           <button type="submit">Delete</button>
         </form>
+        <a th:href="@{'/artists/add-performer/' + ${song.trackId}}">Add Performer</a>
       </td>
     </tr>
     </tbody>

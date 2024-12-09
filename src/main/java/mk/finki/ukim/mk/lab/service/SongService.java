@@ -20,4 +20,6 @@ public interface SongService {
     void editSong(Long songId, String title, String trackId, String genre, int releaseYear, Long albumId);
 
     void createSong(String title, String trackId, String genre, int releaseYear, Long albumId);
+
+    void addPerformerToSong(String trackId, Long performerId);
 }

@@ -68,4 +68,16 @@ public class SongServiceImpl implements SongService {
     public void createSong(String title, String trackId, String genre, int releaseYear, Long albumId) {
         songRepository.save(new Song(trackId, title, genre, releaseYear, new ArrayList<>(), albumRepository.findById(albumId).orElse(null)));
     }
+
+    @Override
+    public void addPerformerToSong(String trackId, Long performerId) {
+        Song song = songRepository.findByTrackId(trackId).orElse(null);
+        if (song == null) {
+            throw new IllegalArgumentException("Song not found");
+        }
+        Artist artist = artistRepository.findById(performerId).orElse(null);
+
+        song.getPerformers().add(artist);
+        songRepository.save(song);
+    }
 }

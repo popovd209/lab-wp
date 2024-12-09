@@ -17,14 +17,14 @@
 </header>
 <section>
   <h2>Select artist:</h2>
-  <form action="/songDetails" method="get">
+  <form action="/artists/add-performer" method="post">
     <div th:each="artist : ${artists}">
-      <input type="radio" name="artistId" th:value="${artist.getId()}" required>
-      <span th:text="${artist.getFirstName()}"></span>
-      <span th:text="${artist.getLastName()}"></span>
+      <input type="radio" name="artistId" th:value="${artist.id}" required>
+      <span th:text="${artist.firstName}"></span>
+      <span th:text="${artist.lastName}"></span>
       <br/>
     </div>
-    <input type="hidden" th:value="${song.getTrackId()}" name="trackId"/>
+    <input type="hidden" th:value="${song.trackId}" name="trackId"/>
     <input type="submit" value="Add artist">
   </form>
 </section>
