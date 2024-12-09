@@ -12,4 +12,12 @@ public interface SongService {
     Artist addArtistToSong(Artist artist, Song song);
 
     Song findByTrackId(String trackId);
+
+    void deleteSong(Long id);
+
+    Song findById(Long id);
+
+    void editSong(Long songId, String title, String trackId, String genre, int releaseYear, Long albumId);
+
+    void saveSong(String title, String trackId, String genre, int releaseYear, Long albumId);
 }
