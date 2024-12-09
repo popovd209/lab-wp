@@ -20,16 +20,23 @@
       <th>Genre</th>
       <th>Release Year</th>
       <th>Album</th>
+      <th>Performers</th>
       <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="song : ${songs}">
-      <td th:text="${song.title}"></td>
+      <td><a th:href="@{'/songs/details/' + ${song.id}}" th:text="${song.title}"></a></td>
       <td th:text="${song.trackId}"></td>
       <td th:text="${song.genre}"></td>
       <td th:text="${song.releaseYear}"></td>
       <td th:text="${song.album.name}"></td>
+      <td>
+        <ul>
+          <li th:each="performer : ${song.performers}"
+              th:text="${performer.firstName + ' ' + performer.lastName}"></li>
+        </ul>
+      </td>
       <td>
         <a th:href="@{'/songs/edit/' + ${song.id}}">Edit</a>
         <form th:action="@{'/songs/delete/' + ${song.id}}" method="post" style="display:inline;">

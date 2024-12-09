@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/songs")
 public class SongController {
@@ -36,7 +38,7 @@ public class SongController {
     @GetMapping("/add")
     public String getAddSongPage(Model model) {
         model.addAttribute("albums", albumService.findAll());
-
+        model.addAttribute("artists", artistService.listArtists());
         return "addSong";
     }
 
@@ -45,8 +47,9 @@ public class SongController {
                            @RequestParam String trackId,
                            @RequestParam String genre,
                            @RequestParam int releaseYear,
-                           @RequestParam Long albumId) {
-        songService.saveSong(title, trackId, genre, releaseYear, albumId);
+                           @RequestParam Long albumId,
+                           @RequestParam(required = false) List<Long> performerIds) {
+        songService.saveSong(title, trackId, genre, releaseYear, albumId, performerIds);
         return "redirect:/songs";
     }
 
@@ -70,9 +73,9 @@ public class SongController {
                                  @RequestParam String trackId,
                                  @RequestParam String genre,
                                  @RequestParam int releaseYear,
-                                 @RequestParam Long albumId) {
-        songService.editSong(songId, title, trackId, genre, releaseYear, albumId);
-
+                                 @RequestParam Long albumId,
+                                 @RequestParam(required = false) List<Long> performerIds) {
+        songService.editSong(songId, title, trackId, genre, releaseYear, albumId, performerIds);
         return "redirect:/songs";
     }
 
@@ -80,6 +83,17 @@ public class SongController {
     public String deleteSong(@PathVariable Long id) {
         songService.deleteSong(id);
         return "redirect:/songs";
+    }
+
+    @GetMapping("/details/{songId}")
+    public String getSongDetails(@PathVariable Long songId, Model model) {
+        Song song = songService.findById(songId);
+        if (song == null) {
+            return "redirect:/songs?error=SongNotFound";
+        }
+
+        model.addAttribute("song", song);
+        return "songDetails";
     }
 
 }

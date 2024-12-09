@@ -17,7 +17,7 @@ public interface SongService {
 
     Song findById(Long id);
 
-    void editSong(Long songId, String title, String trackId, String genre, int releaseYear, Long albumId);
+    void editSong(Long songId, String title, String trackId, String genre, int releaseYear, Long albumId, List<Long> performerIds);
 
-    void saveSong(String title, String trackId, String genre, int releaseYear, Long albumId);
+    void saveSong(String title, String trackId, String genre, int releaseYear, Long albumId, List<Long> performerIds);
 }

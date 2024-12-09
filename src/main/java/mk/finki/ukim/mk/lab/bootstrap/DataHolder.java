@@ -36,8 +36,8 @@ public class DataHolder {
             this.albumRepository.saveAll(albums);
         }
 
+        List<Artist> artists = new ArrayList<>();
         if (this.artistRepository.count() == 0) {
-            List<Artist> artists = new ArrayList<>();
             artists.add(new Artist(1L, "Freddie", "Mercury", "Lead vocalist of Queen.", new ArrayList<>()));
             artists.add(new Artist(2L, "Michael", "Jackson", "The 'King of Pop'.", new ArrayList<>()));
             artists.add(new Artist(3L, "Kurt", "Cobain", "Lead singer and guitarist of Nirvana.", new ArrayList<>()));
@@ -48,11 +48,11 @@ public class DataHolder {
 
         if (this.songRepository.count() == 0) {
             List<Song> songs = new ArrayList<>();
-            songs.add(new Song("T01", "Bohemian Rhapsody", "Rock", 1975, new ArrayList<>(), albums.get(0)));
-            songs.add(new Song("T02", "Billie Jean", "Pop", 1982, new ArrayList<>(), albums.get(1)));
-            songs.add(new Song("T03", "Smells Like Teen Spirit", "Grunge", 1991, new ArrayList<>(), albums.get(2)));
-            songs.add(new Song("T05", "Imagine", "Pop", 1971, new ArrayList<>(), albums.get(3)));
-            songs.add(new Song("T04", "Hotel California", "Rock", 1976, new ArrayList<>(), albums.get(4)));
+            songs.add(new Song("T01", "Bohemian Rhapsody", "Rock", 1975, List.of(artists.get(0)), albums.get(0)));
+            songs.add(new Song("T02", "Billie Jean", "Pop", 1982, List.of(artists.get(1)), albums.get(1)));
+            songs.add(new Song("T03", "Smells Like Teen Spirit", "Grunge", 1991, List.of(artists.get(2)), albums.get(2)));
+            songs.add(new Song("T05", "Imagine", "Pop", 1971, List.of(artists.get(3)), albums.get(3)));
+            songs.add(new Song("T04", "Hotel California", "Rock", 1976, List.of(artists.get(4)), albums.get(4)));
             songRepository.saveAll(songs);
         }
     }
