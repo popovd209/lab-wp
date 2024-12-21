@@ -4,11 +4,14 @@ import jakarta.annotation.PostConstruct;
 import mk.finki.ukim.mk.lab.model.Album;
 import mk.finki.ukim.mk.lab.model.Artist;
 import mk.finki.ukim.mk.lab.model.Song;
+import mk.finki.ukim.mk.lab.model.User;
+import mk.finki.ukim.mk.lab.model.enumerations.Role;
 import mk.finki.ukim.mk.lab.repository.AlbumRepository;
 import mk.finki.ukim.mk.lab.repository.ArtistRepository;
 import mk.finki.ukim.mk.lab.repository.SongRepository;
+import mk.finki.ukim.mk.lab.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,15 +20,28 @@ public class DataHolder {
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
     private final SongRepository songRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public DataHolder(AlbumRepository albumRepository, ArtistRepository artistRepository, SongRepository songRepository) {
+    public DataHolder(AlbumRepository albumRepository, ArtistRepository artistRepository, SongRepository songRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.albumRepository = albumRepository;
         this.artistRepository = artistRepository;
         this.songRepository = songRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
     public void init() {
+        List<User> users = new ArrayList<>();
+        if (this.userRepository.count() == 0) {
+            users.add(new User("elena.atanasoska", passwordEncoder.encode("ea"), "Elena", "Atanasoska", Role.ROLE_USER));
+            users.add(new User("darko.sasanski", passwordEncoder.encode("ds"), "Darko", "Sasanski", Role.ROLE_USER));
+            users.add(new User("ana.todorovska", passwordEncoder.encode("at"), "Ana", "Todorovska", Role.ROLE_USER));
+            users.add(new User("admin", passwordEncoder.encode("admin"), "admin", "admin", Role.ROLE_ADMIN));
+            this.userRepository.saveAll(users);
+        }
+
         List<Album> albums = new ArrayList<>();
         if (this.albumRepository.count() == 0) {
             albums.add(new Album(1L, "A Night at the Opera", "Rock", "1975", new ArrayList<>()));
